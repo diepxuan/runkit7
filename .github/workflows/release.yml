@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (leave empty for latest)'
+        required: false
+        type: string
+
+jobs:
+  build-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get release tag
+        id: get-tag
+        run: |
+          if [[ -n "${{ inputs.release_tag }}" ]]; then
+            TAG="${{ inputs.release_tag }}"
+          elif [[ "${{ github.event_name }}" == "release" ]]; then
+            TAG="${{ github.ref_name }}"
+          else
+            TAG=$(gh release list --json tagName --jq '.[0].tagName')
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Release tag: $TAG"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-tag.outputs.tag }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: pecl
+
+      - name: Update package.xml version
+        run: |
+          VERSION="${{ steps.get-tag.outputs.tag }}"
+          sed -i "s|<version>[^<]*</version>|<version>${VERSION}</version>|" package.xml
+          sed -i "s|<api_version>[^<]*</api_version>|<api_version>${VERSION}</api_version>|" package.xml
+
+      - name: Build PECL package
+        run: pecl package
+
+      - name: Upload to release
+        run: |
+          gh release upload ${{ steps.get-tag.outputs.tag }} runkit7-*.tgz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
