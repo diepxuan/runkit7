@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Release tag (leave empty for latest)'
+        description: "Release tag (leave empty for latest)"
         required: false
         type: string
 
@@ -40,14 +40,8 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: "8.3"
           tools: pecl
-
-      - name: Update package.xml version
-        run: |
-          VERSION="${{ steps.get-tag.outputs.tag }}"
-          sed -i "s|<version>[^<]*</version>|<version>${VERSION}</version>|" package.xml
-          sed -i "s|<api_version>[^<]*</api_version>|<api_version>${VERSION}</api_version>|" package.xml
 
       - name: Build PECL package
         run: pecl package
