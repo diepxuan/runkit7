@@ -364,7 +364,7 @@ static void php_runkit_arginfo_type_addref(zend_arg_info *arginfo)
 #else
 	zend_type type = arginfo->type;
     if (ZEND_TYPE_HAS_LIST(type)) {
-		zend_type *atomic_type;
+		const zend_type *atomic_type;
 		zend_type_list *type_list = ZEND_TYPE_LIST(type);
 		size_t size_in_bytes = ZEND_TYPE_LIST_SIZE(type_list->num_types);
 		zend_type_list *new_type_list = emalloc(size_in_bytes);
