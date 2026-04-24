@@ -55,17 +55,17 @@ initfoo();
 usefoo();
 ?>
 --EXPECTF--
-#0 %srunkit_superglobals_obj_php81.php(40): FooClass->bar()
-#1 %srunkit_superglobals_obj_php81.php(43): usefoo()
-object(FooClass)#1 (1) {
+#0 %srunkit_superglobals_obj_php81.php(%d): FooClass->bar()
+#1 %srunkit_superglobals_obj_php81.php(%d): usefoo()
+object(FooClass)#%d (1) {
   ["prop"]=>
   string(5) "value"
 }
-object(FooClass)#1 (1) {
+object(FooClass)#%d (1) {
   ["prop"]=>
   string(5) "value"
 }
-array(%d)%srefcount(1){
+array(10)%srefcount(1){
   [0]=>
   string(7) "GLOBALS" interned
   [1]=>
@@ -87,7 +87,7 @@ array(%d)%srefcount(1){
   [9]=>
   string(3) "foo" refcount(3)
 }
-array(%d)%srefcount(1){
+array(8)%srefcount(1){
   [0]=>
   string(4) "_GET" interned
   [1]=>
