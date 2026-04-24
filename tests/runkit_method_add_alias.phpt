@@ -10,7 +10,7 @@ display_errors=on
 error_reporting=E_ALL
 --FILE--
 <?php
-ini_set('error_reporting', E_ALL & (~E_DEPRECATED) & (~E_STRICT));
+ini_set('error_reporting', E_ALL & (~E_DEPRECATED) & ((defined('E_STRICT') ? ~E_STRICT : 0)));
 
 class runkit_class {
 }
