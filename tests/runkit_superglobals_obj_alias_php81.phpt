@@ -69,7 +69,7 @@ object(FooClass)#1 (1) {
 }
 
 Deprecated: Function runkit_superglobals() is deprecated in %srunkit_superglobals_obj_alias_php81.php on line 6
-array(10) refcount(1){
+array(%d)%srefcount(1){
   [0]=>
   string(7) "GLOBALS" interned
   [1]=>
@@ -91,7 +91,7 @@ array(10) refcount(1){
   [9]=>
   string(3) "foo" refcount(3)
 }
-array(8) refcount(1){
+array(%d)%srefcount(1){
   [0]=>
   string(4) "_GET" interned
   [1]=>

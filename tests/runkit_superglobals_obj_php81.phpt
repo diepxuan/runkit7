@@ -65,7 +65,7 @@ object(FooClass)#1 (1) {
   ["prop"]=>
   string(5) "value"
 }
-array(10) refcount(1){
+array(%d)%srefcount(1){
   [0]=>
   string(7) "GLOBALS" interned
   [1]=>
@@ -87,7 +87,7 @@ array(10) refcount(1){
   [9]=>
   string(3) "foo" refcount(3)
 }
-array(8) refcount(1){
+array(%d)%srefcount(1){
   [0]=>
   string(4) "_GET" interned
   [1]=>
