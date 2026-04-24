@@ -43,7 +43,7 @@ function getter() {
 }
 
 function main() {
-    ini_set('error_reporting', E_ALL | E_STRICT);
+    ini_set('error_reporting', E_ALL | (defined('E_STRICT') ? E_STRICT : 0));
     global $impl;
     $impl = new FooImpl();
     printf("Before mock: %s\n", var_export(bar('methodName', 0), true));
