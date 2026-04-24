@@ -296,12 +296,25 @@ static inline void php_runkit_modify_function_doc_comment(zend_function *fe, zen
 	if (fe->type == ZEND_USER_FUNCTION) {
 		if (doc_comment) {
 			// TODO: Fix memory leak warnings related to doc comments for created/renamed functions.
+#if PHP_VERSION_ID >= 80400
+			/* In PHP 8.4+, doc_comment is stored differently (offset-based).
+			 * We need to use zend_string_copy() to properly handle the string.
+			 * The field is still zend_string * but the internal handling changed.
+			 * We must properly manage reference counting.
+			 */
+			zend_string *tmp = fe->op_array.doc_comment;
+			fe->op_array.doc_comment = zend_string_copy(doc_comment);
+			if (tmp) {
+				zend_string_release(tmp);
+			}
+#else
 			zend_string *tmp = fe->op_array.doc_comment;
 			zend_string_addref(doc_comment);
 			fe->op_array.doc_comment = doc_comment;
 			if (tmp) {
 				zend_string_delref(tmp);
 			}
+#endif
 		}
 	}
 }

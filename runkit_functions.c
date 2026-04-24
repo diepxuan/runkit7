@@ -571,7 +571,14 @@ static void php_runkit_function_copy_ctor_same_type(zend_function *fe, zend_stri
 		*op_array->refcount = 1;
 
 		if (op_array->doc_comment) {
+#if PHP_VERSION_ID >= 80400
+			/* In PHP 8.4+, doc_comment is already properly copied by
+			 * php_runkit_function_clone with zend_string_copy(), so we
+			 * don't need to addref here. The memcpy'd pointer was replaced
+			 * with a proper copy. */
+#else
 			zend_string_addref(op_array->doc_comment);
+#endif
 		}
 		if (op_array->filename) {
 			zend_string_addref(op_array->filename);
@@ -671,6 +678,21 @@ zend_function *php_runkit_function_clone(zend_function *fe, zend_string *newname
 	} else {
 		memcpy(new_function, fe, sizeof(zend_function));
 	}
+#if PHP_VERSION_ID >= 80400
+	/* In PHP 8.4+, doc_comment storage changed. After memcpy, we need to
+	 * properly copy the doc_comment with correct reference counting.
+	 * The memcpy copies the pointer value, but PHP 8.4+ uses offset-based
+	 * storage internally, so we need to explicitly copy the string.
+	 */
+	if (fe->type == ZEND_USER_FUNCTION && fe->op_array.doc_comment) {
+		/* Release the memcpy'd doc_comment (which is a shallow copy of the pointer)
+		 * and create a proper copy with correct reference counting.
+		 * Note: After memcpy, new_function->op_array.doc_comment points to the
+		 * same string as fe->op_array.doc_comment. We need to copy it properly.
+		 */
+		new_function->op_array.doc_comment = zend_string_copy(fe->op_array.doc_comment);
+	}
+#endif
 	php_runkit_function_copy_ctor(new_function, newname, orig_fe_type);
 	return new_function;
 }
@@ -1126,6 +1148,15 @@ int php_runkit_generate_lambda_function(const zend_string *arguments, const zend
 		return FAILURE;
 	}
 
+#if PHP_VERSION_ID >= 80400
+	/* In PHP 8.4+, explicitly set ZEND_ACC_RETURN_REFERENCE on the function.
+	 * The eval code includes '&' prefix but the flag may not be reliably set
+	 * through compilation alone in PHP 8.4+. */
+	if (return_ref) {
+		(*pfe)->common.fn_flags |= ZEND_ACC_RETURN_REFERENCE;
+	}
+#endif
+
 	return SUCCESS;
 }
 /* }}} */
@@ -1193,6 +1224,15 @@ int php_runkit_generate_lambda_method(const zend_string *arguments, const zend_s
 	if ((*pfe = zend_hash_str_find_ptr(&(ce->function_table), RUNKIT_TEMP_METHODNAME, sizeof(RUNKIT_TEMP_METHODNAME) - 1)) == NULL) {
 		php_error_docref(NULL, E_ERROR, "Unexpected inconsistency creating a temporary method");
 	}
+
+#if PHP_VERSION_ID >= 80400
+	/* In PHP 8.4+, explicitly set ZEND_ACC_RETURN_REFERENCE on the method.
+	 * The eval code includes '&' prefix but the flag may not be reliably set
+	 * through compilation alone in PHP 8.4+. */
+	if (return_ref && *pfe != NULL) {
+		(*pfe)->common.fn_flags |= ZEND_ACC_RETURN_REFERENCE;
+	}
+#endif
 
 	return SUCCESS;
 }
