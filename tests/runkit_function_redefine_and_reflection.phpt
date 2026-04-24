@@ -21,4 +21,4 @@ object(ReflectionFunction)#%d (1) {
   string(30) "__function_removed_by_runkit__"
 }
 
-Fatal error: __function_removed_by_runkit__(): A function removed by runkit7 was somehow invoked in %s on line %d
+Fatal error: __function_removed_by_runkit__(): A function removed by runkit7 was somehow invoked in %s on line %d%A

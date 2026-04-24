@@ -19,4 +19,4 @@ $s1 = serialize($a);
 unserialize($s1);
 ?>
 --EXPECTF--
-Fatal error: Couldn't find implementation for method Test::unserialize in Unknown on line %d
+Fatal error: Couldn't find implementation for method Test::unserialize in Unknown on line %d%A
