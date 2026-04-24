@@ -13,7 +13,7 @@ function testme() {
 	echo "Baz is $baz\n";
 }
 
-ini_set('error_reporting', E_ALL & (~E_DEPRECATED) & ((defined('E_STRICT') ? ~E_STRICT : 0)));
+ini_set('error_reporting', E_ALL & (~E_DEPRECATED) & (@(E_STRICT ? ~E_STRICT : 0)));
 
 $foo = 1;
 $bar = 2;

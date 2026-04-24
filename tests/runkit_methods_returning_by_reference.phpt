@@ -4,7 +4,7 @@ runkit7_method_redefine() & runkit7_method_add() for methods returning a value b
 <?php if(!extension_loaded("runkit7") || !RUNKIT7_FEATURE_MANIPULATION) print "skip"; ?>
 --FILE--
 <?php
-ini_set('error_reporting', E_ALL & ~E_DEPRECATED & ~E_NOTICE & (defined('E_STRICT') ? ~E_STRICT : 0));
+ini_set('error_reporting', E_ALL & ~E_DEPRECATED & ~E_NOTICE & @(E_STRICT ? ~E_STRICT : 0));
 
 class RunkitClass {
 	var $a = 0;

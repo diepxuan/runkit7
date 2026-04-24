@@ -6,7 +6,7 @@ runkit7_method_redefine() function and doc_comment
 display_errors=on
 --FILE--
 <?php
-ini_set('error_reporting', E_ALL & ~E_DEPRECATED & (defined('E_STRICT') ? ~E_STRICT : 0));
+ini_set('error_reporting', E_ALL & ~E_DEPRECATED & @(E_STRICT ? ~E_STRICT : 0));
 
 class runkit_class {
 	/**
