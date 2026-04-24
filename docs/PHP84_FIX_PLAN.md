@@ -65,14 +65,20 @@
 - **tests/runkit_method_add_closure_php80.phpt** - Skip PHP 8.5+
 - **tests/runkit_function_redefine_closure_static.phpt** - Skip PHP 8.5+
 
+### Commit `92157bb` - test: add PHP 8.5 specific superglobals test
+
+- **tests/runkit_superglobals_obj_alias_php85.phpt** - New test for PHP 8.5+
+- **tests/runkit_superglobals_obj_alias_php81.phpt** - Update skip message
+
 ---
 
 ## Tong ket
 
-**Tong so commits:** 12
-**Test files da sua:** 30+
+**Tong so commits:** 14
+**Test files da sua:** 31+
 **Source files da sua:** 3 (runkit.h, runkit_functions.c, runkit_constants.c)
 **CI status:** **PASS** - Tat ca PHP versions 7.2-8.5
+**CI run:** https://github.com/diepxuan/runkit7/actions/runs/24877238070
 
 **Vấn đề đã giải quyết:**
 1. PHP 8.5 compile error - const qualifier va return type cast
