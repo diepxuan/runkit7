@@ -18,4 +18,4 @@ runkit7_method_remove("Test", "serialize");
 $s1 = serialize($a);
 ?>
 --EXPECTF--
-Fatal error: Couldn't find implementation for method Test::serialize in Unknown on line %d
+Fatal error: Couldn't find implementation for method Test::serialize in Unknown on line %d%A

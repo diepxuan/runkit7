@@ -4,7 +4,7 @@ runkit7_function_redefine() & runkit7_function_add() for functions returning a v
 <?php if(!extension_loaded("runkit7") || !RUNKIT7_FEATURE_MANIPULATION) print "skip"; ?>
 --FILE--
 <?php
-ini_set('error_reporting', E_ALL & (~E_DEPRECATED) & (~E_STRICT) & (~E_NOTICE));
+ini_set('error_reporting', E_ALL & ~E_DEPRECATED & ~E_NOTICE & @(E_STRICT ? ~E_STRICT : 0));
 
 $a = 0;
 

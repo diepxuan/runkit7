@@ -4,7 +4,7 @@ Bug#57658 - runkit_class_adopt fails on method names with capitals
 <?php if (!extension_loaded("runkit7") || !function_exists('runkit_class_adopt')) print "skip"; ?>
 --FILE--
 <?php
-error_reporting(E_ALL & ~E_STRICT);
+error_reporting(E_ALL & @(E_STRICT ? ~E_STRICT : 0));
 
 class A { function aB() { print "a";} function aC() { echo "d"; } }
 class B { function aB() { print "b";} }

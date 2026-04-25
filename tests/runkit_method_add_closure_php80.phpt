@@ -3,6 +3,7 @@ runkit7_method_add() function with closure
 --SKIPIF--
 <?php
 if (!extension_loaded("runkit7") || !RUNKIT7_FEATURE_MANIPULATION) print "skip\n";
+if (PHP_VERSION_ID >= 80500) print "skip PHP 8.5+ closure binding changed\n";
 ?>
 --INI--
 display_errors=on

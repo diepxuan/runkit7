@@ -1,11 +1,10 @@
 --TEST--
-runkit.superglobal setting creates superglobals that can be referenced multiple ways. (new function name) (8.1+)
+runkit.superglobal setting creates superglobals that can be referenced multiple ways. (new function name) (8.5+)
 --SKIPIF--
 <?php
 if(!extension_loaded("runkit7") || !RUNKIT7_FEATURE_MANIPULATION) print "skip\n";
 if(!extension_loaded("session")) print "skip - This test assumes \$_SESSION will exist, but the session extension isn't enabled/installed\n";
-if(PHP_VERSION_ID < 80100) print "skip GLOBALS changed in 8.1\n";
-if(PHP_VERSION_ID >= 80500) print "skip PHP 8.5+ (use php85.phpt)\n";
+if(PHP_VERSION_ID < 80500) print "skip PHP 8.5+ only\n";
 ?>
 --INI--
 display_errors=on
@@ -58,18 +57,18 @@ initfoo();
 usefoo();
 ?>
 --EXPECTF--
-#0 %srunkit_superglobals_obj_alias_php81.php(41): FooClass->bar()
-#1 %srunkit_superglobals_obj_alias_php81.php(44): usefoo()
-object(FooClass)#1 (1) {
+#0 %srunkit_superglobals_obj_alias_php85.php(%d): FooClass->bar()
+#1 %srunkit_superglobals_obj_alias_php85.php(%d): usefoo()
+object(FooClass)#%d (1) {
   ["prop"]=>
   string(5) "value"
 }
-object(FooClass)#1 (1) {
+object(FooClass)#%d (1) {
   ["prop"]=>
   string(5) "value"
 }
 
-Deprecated: Function runkit_superglobals() is deprecated in %srunkit_superglobals_obj_alias_php81.php on line 6
+Deprecated: Function runkit_superglobals() is deprecated in %srunkit_superglobals_obj_alias_php85.php on line 6
 array(%d)%srefcount(1){
   [0]=>
   string(7) "GLOBALS" interned
@@ -94,17 +93,17 @@ array(%d)%srefcount(1){
 }
 array(%d)%srefcount(1){
   [0]=>
-  string(4) "_GET" interned
-  [1]=>
-  string(5) "_POST" interned
-  [2]=>
-  string(7) "_COOKIE" interned
-  [3]=>
-  string(6) "_FILES" interned
-  [4]=>
   string(4) "argv" interned
-  [5]=>
+  [1]=>
   string(4) "argc" interned
+  [2]=>
+  string(4) "_GET" interned
+  [3]=>
+  string(5) "_POST" interned
+  [4]=>
+  string(7) "_COOKIE" interned
+  [5]=>
+  string(6) "_FILES" interned
   [6]=>
   string(7) "_SERVER" interned
   [7]=>

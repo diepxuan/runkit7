@@ -30,4 +30,4 @@ object(ReflectionMethod)#%d (2) {
   string(11) "RunkitClass"
 }
 
-Fatal error: RunkitClass::__method_removed_by_runkit__(): A method removed by runkit7 was somehow invoked in %s on line %d
+Fatal error: RunkitClass::__method_removed_by_runkit__(): A method removed by runkit7 was somehow invoked in %s on line %d%A
