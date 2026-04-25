@@ -27,7 +27,21 @@ Define customized superglobal variables for general purpose use.
  <license uri="http://www.opensource.org/licenses/BSD-3-Clause">BSD License (3 Clause)</license>
  <notes>
 - Fork from runkit7/runkit7 (upstream 4.0.0a6)
-- PHP 8.4 compatibility patch (doc_comment, rebuild_object_properties)
+- PHP 8.4 compatibility fixes:
+  - doc_comment reference counting: use zend_string_copy/release instead of addref/delref (offset-based storage change)
+  - Skip addref in copy_ctor for PHP 8.4+ (already properly copied by zend_string_copy in clone)
+  - Explicit zend_string_copy after memcpy in php_runkit_function_clone
+  - Set ZEND_ACC_RETURN_REFERENCE flag explicitly for lambda functions
+  - E_STRICT deprecation suppression in 17+ test files
+  - Superglobals test format update (packed array)
+- PHP 8.5 compatibility fixes:
+  - Add const qualifier to atomic_type pointer (ZEND_TYPE_LIST_FOREACH macro)
+  - Use proper return type for zend_register_constant (returns zend_constant* instead of int)
+  - Update test expectations for stack trace in fatal error output
+  - Skip closure tests incompatible with PHP 8.5 binding changes
+  - Skip superglobals tests incompatible with PHP 8.5 globals order changes
+  - Add PHP 8.5 specific superglobals test
+- All tests passing for PHP 7.2-8.5
  </notes>
  <contents>
   <dir name="/">
